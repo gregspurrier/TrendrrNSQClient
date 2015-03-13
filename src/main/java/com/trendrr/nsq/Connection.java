@@ -147,6 +147,9 @@ public class Connection {
 	 * this is used internally, generally close() should be used instead.
 	 */
 	public void _disconnected() {
+		// Stop accepting messages on this connection
+		this.channel.setAttachment(null);
+
 		//clean up anything that needs cleaning up.
 		this.client._disconnected(this);
 	}
