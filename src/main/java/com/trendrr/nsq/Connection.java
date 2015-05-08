@@ -122,6 +122,13 @@ public class Connection {
 			message.setId(msg.getMessageId());
 			message.setMessage(msg.getMessageBody());
 			message.setTimestamp(new Date(TimeUnit.NANOSECONDS.toMillis(msg.getTimestamp())));
+
+      if (message.getAttempts() > 5) {
+          log.warn("Discarding message that had too many attempts: " + message);
+          message.finished();
+          return;
+      }
+
 			if (this.callback == null) {
 				log.warn("NO CAllback, dropping message: " + message);
 			} else {
