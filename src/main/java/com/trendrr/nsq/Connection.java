@@ -124,7 +124,7 @@ public class Connection {
 			message.setTimestamp(new Date(TimeUnit.NANOSECONDS.toMillis(msg.getTimestamp())));
 
       if (message.getAttempts() > 5) {
-          log.warn("Discarding message that had too many attempts: " + message.substring(0,100));
+          log.warn("Discarding message that had too many attempts" + message.toString().substring(0,1000));
           message.finished();
           return;
       }
