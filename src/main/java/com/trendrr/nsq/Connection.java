@@ -104,7 +104,14 @@ public class Connection {
 		}
 
 		if (frame instanceof ErrorFrame) {
-			this.responses.add(frame);
+        try {
+						this.responses.add(frame);
+				} catch (IllegalStateException e) {
+						// This happens when a consumer receives a second error frame. The simplest approach
+						// is to disconnect and recover by re-establishing a connection.
+						log.warn("Unable to enqueue error frame. Disconnecting");
+						this.close();
+				}
 			return;
 		}
 
